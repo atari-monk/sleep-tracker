@@ -126,6 +126,7 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     - Create base template `sleep/templates/base.html`:
 
     ```html
+    {% raw %}
     <!DOCTYPE html>
     <html>
       <head>
@@ -134,48 +135,53 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
       </head>
       <body>
         <nav>
-          &#123;% if user.is_authenticated &#125;%
-          <a href="&#123;% url 'sleep_list' &#125;%">Home</a> |
-          <a href="&#123;% url 'add_record' &#125;%">Add Record</a> |
-          <a href="&#123;% url 'logout' &#125;%">Logout</a>
-          &#123;% else &#125;%
-          <a href="&#123;% url 'login' &#125;%">Login</a>
-          &#123;% endif &#125;%
+          {% if user.is_authenticated %}
+          <a href="{% url 'sleep_list' %}">Home</a> |
+          <a href="{% url 'add_record' %}">Add Record</a> |
+          <a href="{% url 'logout' %}">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
         </nav>
-        &#123;% block content &#125;%&#123;% endblock &#125;%
+        {% block content %}{% endblock %}
       </body>
     </html>
+    {% endraw %}
     ```
 
     - Create `sleep/templates/sleep/list.html`:
 
     ```html
-    &#123;% extends 'base.html' &#125;% &#123;% block content &#125;%
+    {% raw %}
+    {% extends 'base.html' %} {% block content %}
     <h1>Your Sleep Records</h1>
-    <a href="&#123;% url 'add_record' &#125;%">Add New Record</a>
+    <a href="{% url 'add_record' %}">Add New Record</a>
     <ul>
-      &#123;% for record in records &#125;%
+      {% for record in records %}
       <li>
         Slept: {{ record.sleep_time }} | Woke: {{ record.wake_time }} |
-        Duration: {{ record.duration }} &#123;% if record.notes &#125;%
+        Duration: {{ record.duration }} {% if record.notes %}
         <p>{{ record.notes }}</p>
-        &#123;% endif &#125;%
+        {% endif %}
       </li>
-      &#123;% endfor &#125;%
+      {% endfor %}
     </ul>
-    &#123;% endblock &#125;%
+    {% endblock %}
+    {% endraw %}
     ```
 
     - Create `sleep/templates/sleep/add.html`:
 
     ```html
-    &#123;% extends 'base.html' &#125;% &#123;% block content &#125;%
+    {% raw %}
+    {% extends 'base.html' %} {% block content %}
     <h1>Add Sleep Record</h1>
     <form method="post">
-      &#123;% csrf_token &#125;% {{ form.as_p }}
+      {% csrf_token %} {{ form.as_p }}
       <button type="submit">Save</button>
     </form>
-    &#123;% endblock &#125;%
+    {% endblock %}
+    {% endraw %}
     ```
 
 ## Phase 5: Mobile Optimization
