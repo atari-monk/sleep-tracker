@@ -188,6 +188,7 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
 
 14. **Add mobile-friendly styling**:
     - Add this to `base.html` in the `<head>` section:
+    
     ```html
     <style>
       body {
