@@ -6,3 +6,7 @@ venv
 ## mine
 
 tmp.md
+
+## db
+
+db.sqlite3
