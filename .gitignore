@@ -3,10 +3,6 @@
 __pycache__
 venv
 
-## mine
-
-tmp.md
-
 ## db
 
 db.sqlite3
