@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Your Sleep Records</h1>
+<a href="{% url 'add_record' %}">Add New Record</a>
+<ul>
+  {% for record in records %}
+  <li>
+    Slept: {{ record.sleep_time }} | Woke: {{ record.wake_time }} | Duration: {{
+    record.duration }} {% if record.notes %}
+    <p>{{ record.notes }}</p>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
