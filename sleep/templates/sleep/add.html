@@ -2,6 +2,44 @@
 <h1>Add Sleep Record</h1>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
+  <div>
+    <strong>Duration:</strong>
+    <span id="duration-display">Not calculated yet</span>
+  </div>
   <button type="submit">Save</button>
 </form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const sleepTimeInput = document.getElementById('id_sleep_time')
+    const wakeTimeInput = document.getElementById('id_wake_time')
+    const durationDisplay = document.getElementById('duration-display')
+
+    function calculateDuration() {
+      const sleepTime = new Date(sleepTimeInput.value)
+      const wakeTime = new Date(wakeTimeInput.value)
+
+      if (isNaN(sleepTime) || isNaN(wakeTime)) {
+        durationDisplay.textContent = 'Invalid times'
+        return
+      }
+
+      if (wakeTime <= sleepTime) {
+        durationDisplay.textContent = 'Wake time must be after sleep time'
+        return
+      }
+
+      const durationMs = wakeTime - sleepTime
+      const hours = Math.floor(durationMs / (1000 * 60 * 60))
+      const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60))
+
+      durationDisplay.textContent = `${hours} hours ${Math.round(
+        minutes
+      )} minutes`
+    }
+
+    sleepTimeInput.addEventListener('change', calculateDuration)
+    wakeTimeInput.addEventListener('change', calculateDuration)
+  })
+</script>
 {% endblock %}

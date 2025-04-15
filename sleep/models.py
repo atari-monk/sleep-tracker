@@ -9,4 +9,10 @@ class SleepRecord(models.Model):
 
     @property
     def duration(self):
-        return self.wake_time - self.sleep_time
+        if self.sleep_time and self.wake_time:
+            delta = self.wake_time - self.sleep_time
+            total_seconds = delta.total_seconds()
+            hours = int(total_seconds // 3600)
+            minutes = int((total_seconds % 3600) // 60)
+            return f"{hours}h {minutes}m"
+        return "N/A"

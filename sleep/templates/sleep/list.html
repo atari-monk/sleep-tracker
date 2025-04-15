@@ -1,14 +1,27 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Your Sleep Records</h1>
 <a href="{% url 'add_record' %}">Add New Record</a>
+
+<form method="get" style="margin: 20px 0">
+  <label for="date">Filter by date:</label>
+  <input type="date" id="date" name="date" value="{{ date_filter }}" />
+  <button type="submit">Filter</button>
+  {% if date_filter %}
+  <a href="{% url 'sleep_list' %}">Clear filter</a>
+  {% endif %}
+</form>
+
 <ul>
   {% for record in records %}
   <li>
-    Slept: {{ record.sleep_time }} | Woke: {{ record.wake_time }} | Duration: {{
-    record.duration }} {% if record.notes %}
-    <p>{{ record.notes }}</p>
+    <strong>Slept:</strong> {{ record.sleep_time|date:"Y-m-d H:i" }} |
+    <strong>Woke:</strong> {{ record.wake_time|date:"Y-m-d H:i" }} |
+    <strong>Duration:</strong> {{ record.duration }} {% if record.notes %}
+    <p><strong>Notes:</strong> {{ record.notes }}</p>
     {% endif %}
   </li>
+  {% empty %}
+  <li>No sleep records found.</li>
   {% endfor %}
 </ul>
 {% endblock %}

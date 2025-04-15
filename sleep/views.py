@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import SleepRecord
 from django.contrib.auth.decorators import login_required
@@ -17,7 +18,21 @@ def signup(request):
 @login_required
 def sleep_list(request):
     records = SleepRecord.objects.filter(user=request.user).order_by('-sleep_time')
-    return render(request, 'sleep/list.html', {'records': records})
+
+    date_filter = request.GET.get('date')
+    if date_filter:
+        try:
+            filter_date = datetime.strptime(date_filter, '%Y-%m-%d').date()
+            records = records.filter(
+                sleep_time__date=filter_date
+            )
+        except ValueError:
+            pass
+
+    return render(request, 'sleep/list.html', {
+        'records': records,
+        'date_filter': date_filter
+    })
 
 @login_required
 def add_record(request):

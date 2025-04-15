@@ -521,6 +521,7 @@ class SleepRecordForm(forms.ModelForm):
 ```
 
 2. **Add date filtering** to the sleep list view:
+   (use `from datetime import datetime` becouse its a module and class)
 
 ```python
 @login_required
