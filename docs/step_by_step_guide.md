@@ -245,3 +245,104 @@ Once you have this basic version working, you could:
 
 Would you like me to elaborate on any of these steps or suggest additional features?
 
+## Phase 7: Authentication
+
+The error occurs because Django's built-in authentication views (which you're including with `path('accounts/', include('django.contrib.auth.urls'))`) are looking for templates in a `registration` directory, but you haven't created these templates yet.
+
+Here's how to fix this:
+
+1. First, create a `templates/registration` directory in your `sleep` app:
+   ```
+   mkdir -p sleep/templates/registration
+   ```
+
+2. Create a login template at `sleep/templates/registration/login.html`:
+   ```html
+   {% raw %}
+   {% extends 'base.html' %}
+
+   {% block content %}
+   <h1>Login</h1>
+   <form method="post">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <button type="submit">Login</button>
+   </form>
+   <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+   {% endblock %}
+   {% endraw %}
+   ```
+
+3. Update your `settings.py` to tell Django where to find templates. Add this to `TEMPLATES` in `sleeptracker/settings.py`:
+   ```python
+   'DIRS': [os.path.join(BASE_DIR, 'templates')],
+   ```
+
+   The full TEMPLATES setting should look something like:
+   ```python
+   TEMPLATES = [
+       {
+           'BACKEND': 'django.template.backends.django.DjangoTemplates',
+           'DIRS': [os.path.join(BASE_DIR, 'templates')],
+           'APP_DIRS': True,
+           'OPTIONS': {
+               'context_processors': [
+                   'django.template.context_processors.debug',
+                   'django.template.context_processors.request',
+                   'django.contrib.auth.context_processors.auth',
+                   'django.contrib.messages.context_processors.messages',
+               ],
+           },
+       },
+   ]
+   ```
+
+4. If you want to add signup functionality (which the login template references), you'll need to:
+   - Create a signup view in `sleep/views.py`:
+     ```python
+     from django.contrib.auth.forms import UserCreationForm
+     
+     def signup(request):
+         if request.method == 'POST':
+             form = UserCreationForm(request.POST)
+             if form.is_valid():
+                 form.save()
+                 return redirect('login')
+         else:
+             form = UserCreationForm()
+         return render(request, 'registration/signup.html', {'form': form})
+     ```
+
+   - Create a signup template at `sleep/templates/registration/signup.html`:
+     ```html
+     {% raw %}
+     {% extends 'base.html' %}
+
+     {% block content %}
+     <h1>Sign up</h1>
+     <form method="post">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <button type="submit">Sign up</button>
+     </form>
+     <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+     {% endblock %}
+     {% endraw %}
+     ```
+
+   - Add the URL pattern to `sleep/urls.py`:
+     ```python
+     path('signup/', views.signup, name='signup'),
+     ```
+
+5. Also, you might want to add a redirect for after login. Add this to `settings.py`:
+   ```python
+   LOGIN_REDIRECT_URL = 'sleep_list'
+   ```
+
+After making these changes, the login page should work properly. The error occurred because Django's auth system has default views but expects you to provide the templates for those views.
+
+Remember to restart your development server after making these changes:
+```
+python manage.py runserver
+```
