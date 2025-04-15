@@ -119,58 +119,70 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     - Create `templates` directory in `sleep` app
     - Create base template `sleep/templates/base.html`:
 
+    {% raw %}
+
     ```html
     <!DOCTYPE html>
     <html>
-    	<head>
-    		<title>Sleep Tracker</title>
-    		<meta name="viewport" content="width=device-width, initial-scale=1" />
-    	</head>
-    	<body>
-    		<nav>
-    			{% if user.is_authenticated %}
-    			<a href="{% url 'sleep_list' %}">Home</a> |
-    			<a href="{% url 'add_record' %}">Add Record</a> |
-    			<a href="{% url 'logout' %}">Logout</a>
-    			{% else %}
-    			<a href="{% url 'login' %}">Login</a>
-    			{% endif %}
-    		</nav>
-    		{% block content %}{% endblock %}
-    	</body>
+      <head>
+        <title>Sleep Tracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body>
+        <nav>
+          {% if user.is_authenticated %}
+          <a href="{% url 'sleep_list' %}">Home</a> |
+          <a href="{% url 'add_record' %}">Add Record</a> |
+          <a href="{% url 'logout' %}">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </nav>
+        {% block content %}{% endblock %}
+      </body>
     </html>
     ```
 
+    {% endraw %}
+
     - Create `sleep/templates/sleep/list.html`:
+
+    {% raw %}
 
     ```html
     {% extends 'base.html' %} {% block content %}
     <h1>Your Sleep Records</h1>
     <a href="{% url 'add_record' %}">Add New Record</a>
     <ul>
-    	{% for record in records %}
-    	<li>
-    		Slept: {{ record.sleep_time }} | Woke: {{ record.wake_time }} |
-    		Duration: {{ record.duration }} {% if record.notes %}
-    		<p>{{ record.notes }}</p>
-    		{% endif %}
-    	</li>
-    	{% endfor %}
+      {% for record in records %}
+      <li>
+        Slept: {{ record.sleep_time }} | Woke: {{ record.wake_time }} |
+        Duration: {{ record.duration }} {% if record.notes %}
+        <p>{{ record.notes }}</p>
+        {% endif %}
+      </li>
+      {% endfor %}
     </ul>
     {% endblock %}
     ```
 
+    {% endraw %}
+
     - Create `sleep/templates/sleep/add.html`:
+
+    {% raw %}
 
     ```html
     {% extends 'base.html' %} {% block content %}
     <h1>Add Sleep Record</h1>
     <form method="post">
-    	{% csrf_token %} {{ form.as_p }}
-    	<button type="submit">Save</button>
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Save</button>
     </form>
     {% endblock %}
     ```
+
+    {% endraw %}
 
 ## Phase 5: Mobile Optimization
 
@@ -178,35 +190,35 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     - Add this to `base.html` in the `<head>` section:
     ```html
     <style>
-    	body {
-    		font-family: Arial, sans-serif;
-    		line-height: 1.6;
-    		padding: 10px;
-    	}
-    	input,
-    	textarea,
-    	button {
-    		width: 100%;
-    		padding: 8px;
-    		margin: 5px 0 15px;
-    		box-sizing: border-box;
-    	}
-    	button {
-    		background: #4caf50;
-    		color: white;
-    		border: none;
-    	}
-    	nav {
-    		margin-bottom: 20px;
-    	}
-    	ul {
-    		list-style: none;
-    		padding: 0;
-    	}
-    	li {
-    		padding: 10px;
-    		border-bottom: 1px solid #ddd;
-    	}
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        padding: 10px;
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 15px;
+        box-sizing: border-box;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+      }
+      nav {
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
     </style>
     ```
 
@@ -231,3 +243,4 @@ Once you have this basic version working, you could:
 5. Add reminders to go to bed
 
 Would you like me to elaborate on any of these steps or suggest additional features?
+
