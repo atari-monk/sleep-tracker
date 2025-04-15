@@ -125,8 +125,7 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     - Create `templates` directory in `sleep` app
     - Create base template `sleep/templates/base.html`:
 
-    {% raw %}
-    ```html
+    ```plaintext
     <!DOCTYPE html>
     <html>
       <head>
@@ -147,12 +146,10 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
       </body>
     </html>
     ```
-    {% endraw %}
 
     - Create `sleep/templates/sleep/list.html`:
 
-    {% raw %}
-    ```html
+    ```plaintext
     {% extends 'base.html' %} {% block content %}
     <h1>Your Sleep Records</h1>
     <a href="{% url 'add_record' %}">Add New Record</a>
@@ -168,12 +165,10 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     </ul>
     {% endblock %}
     ```
-    {% endraw %}
 
     - Create `sleep/templates/sleep/add.html`:
 
-    {% raw %}
-    ```html
+    ```plaintext
     {% extends 'base.html' %} {% block content %}
     <h1>Add Sleep Record</h1>
     <form method="post">
@@ -182,7 +177,6 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
     </form>
     {% endblock %}
     ```
-    {% endraw %}
 
 ## Phase 5: Mobile Optimization
 
