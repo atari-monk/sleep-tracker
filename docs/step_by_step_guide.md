@@ -11,6 +11,12 @@ Great choice! Building a simple but useful sleep tracker is an excellent way to 
    - Mac/Linux: `source venv/bin/activate`
 4. **Install Django**: `pip install django`
 5. **Create a new Django project**: `django-admin startproject sleeptracker`
+
+- already having project folder, cd it and use . to create the project in the current folder, not a new subfolder.
+  ```sh
+  django-admin startproject sleeptracker .
+  ```
+
 6. **Create a sleep app**: `python manage.py startapp sleep`
 7. **Add 'sleep' to INSTALLED_APPS** in `sleeptracker/settings.py`
 

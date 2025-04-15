@@ -1,5 +1,3 @@
-# setup
-setuptools
-
 # django
+
 django
